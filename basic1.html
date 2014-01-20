@@ -12,18 +12,19 @@
 		</script>
 
 		<script id="shader-vs" type="x-shader/x-vertex">
-		attribute vec3 aVertexPosition;
+			attribute vec3 aVertexPosition;
 
-		uniform mat4 uMVMatrix;
-		uniform mat4 uPMatrix;
+			uniform mat4 uMVMatrix;
+			uniform mat4 uPMatrix;
 
-		void main(void) {
-			gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-		}
+			void main(void) {
+				gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+			}
 		</script>
 
 		<script type="text/javascript">
 			var gl;
+
 			function initGL(canvas)
 			{
 				try {
@@ -38,9 +39,6 @@
 				}
 
 			}
-
-			var mvMatrix = mat4.creat();
-			var pMatrix = mat4.create();
 
 			function getShader(gl, id) {
 				var shaderScript = document.getElementById(id);
@@ -76,12 +74,8 @@
 				return shader;
 			}
 
-			function setMatrixUniforms() {
-				gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-				gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
-			}
-			
 			var shaderProgram;
+
 			function initShaders()
 			{
 				var fragmentShader = getShader(gl, "shader-fs");
@@ -104,8 +98,17 @@
 		        shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 			}
 
+			var mvMatrix = mat4.creat();
+			var pMatrix = mat4.create();
+
+			function setMatrixUniforms() {
+				gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+				gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+			}
+
 			var triangleVertexPositionBuffer;
 			var squareVertexPositionBuffer;
+
 			function initBuffers()
 			{
 				triangleVertexPositionBuffer = gl.createBuffer();
@@ -115,10 +118,9 @@
 			        -1.0, -1.0,  0.0,
 			         1.0, -1.0,  0.0
 			    ];
-
 			    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 			    triangleVertexPositionBuffer.itemSize = 3;
-			    triangleVertexPositionBuffer.numItems = 4;
+			    triangleVertexPositionBuffer.numItems = 3;
 
 			    squareVertexPositionBuffer = gl.createBuffer();
 			    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
@@ -171,7 +173,7 @@
 
 	<body onload="webGLStart();">
 	
-		<canvas id="basiclesson" width="500" height="500"></canvas>
+		<canvas id="basiclesson" style="border: none;" width="500" height="500"></canvas>
 		<br/>
 	
 	</body>
